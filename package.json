@@ -1,0 +1,22 @@
+{
+    "name": "link-manager",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "start": "node ./app.js",
+        "build": "tsc --build",
+        "clean": "rm -Rf dist/",
+        "dev": "npm run build && node -r dotenv/config ./dist/app.js"
+    },
+    "dependencies": {
+        "express": "^4.18.2",
+        "morgan": "^1.10.0",
+        "mongoose": "^7.3.1"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.17",
+        "@types/morgan": "^1.9.4",
+        "dotenv": "^16.3.1",
+        "typescript": "^5.1.3"
+    }
+}
