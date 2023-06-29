@@ -4,10 +4,16 @@ A simple tool to manage shorted links like bit.ly or tinyurl.com.
 
 ## Installation
 
-You need a MongoDB instance running. You can use docker to run it:
+Before running the Docker container, you need to create a network:
 
 ```bash
-docker run -d -p "27017:27017" --name mongo mongo
+docker network create lm-network
+```
+
+After that, you need to run a MongoDB container:
+
+```bash
+docker run -d --net lm-network --name mongo mongo
 ```
 
 Then you can run the application:
@@ -19,6 +25,8 @@ docker run -d -p "3000:3000" --name link-manager \
 -e "REDIRECT_404_URL=http://another-url.com" \
 -e "SHORTNER_URL=http://localhost:3000" \
 -e "AUTH_TOKEN=1234567890" \
+--net lm-network \
+--restart unless-stopped \
 lpsouza/link-manager
 ```
 
