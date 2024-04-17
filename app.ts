@@ -35,7 +35,16 @@ app.get('/status', async (req: express.Request, res: express.Response) => {
             return {
                 shortUrl: `${process.env.SHORTNER_URL}/${alias.name}`,
                 originalUrl: alias.url,
-                hits: alias.hits.length,
+                hits: {
+                    total: alias.hits.length,
+                    details: alias.hits.map((hit) => {
+                        return {
+                            ip: hit.ip,
+                            userAgent: hit.userAgent,
+                            timestamp: hit.createdAt
+                        };
+                    })
+                }
             };
         });
 
