@@ -11,6 +11,7 @@ app.use(express.json());
 app.use(morgan('combined'));
 
 app.get('/', (req: express.Request, res: express.Response) => {
+    res.header('X-Robots-Tag', 'noindex, nofollow');
     res.redirect(301, process.env.REDIRECT_URL);
 });
 
@@ -52,8 +53,10 @@ app.get('/:alias', async (req: express.Request, res: express.Response) => {
             userAgent: req.headers['user-agent']
         });
         aliasInfo.save();
+        res.header('X-Robots-Tag', 'noindex, nofollow');
         res.redirect(301, aliasInfo.url);
     } else {
+        res.header('X-Robots-Tag', 'noindex, nofollow');
         res.redirect(301, process.env.REDIRECT_404_URL);
     }
 });
