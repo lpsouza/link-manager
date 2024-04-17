@@ -4,30 +4,38 @@ A simple tool to manage shorted links like bit.ly or tinyurl.com.
 
 ## Installation
 
-Before running the Docker container, you need to create a network:
+This project is available as a docker image in [Docker Hub](https://hub.docker.com/r/lpsouza/link-manager). To simplify the installation, you can use the `docker-compose.yml` file below:
 
-```bash
-docker network create lm-network
+```yaml
+version: '3'
+services:
+    mongo:
+        image: mongo
+        networks:
+            - link-manager-network
+
+    link-manager:
+        image: lpsouza/link-manager
+        ports:
+            - "3000:3000"
+        environment:
+            - CONNECTION_STRING=mongodb://mongo:27017
+            - REDIRECT_URL=http://another-url.com
+            - REDIRECT_404_URL=http://another-url.com
+            - SHORTNER_URL=http://localhost:3000
+            - AUTH_TOKEN=1234567890
+        networks:
+            - link-manager-network
+        restart: unless-stopped
+
+networks:
+    link-manager-network:
 ```
 
-After that, you need to run a MongoDB container:
+To start the services, run the following command:
 
 ```bash
-docker run -d --net lm-network --name mongo mongo
-```
-
-Then you can run the application:
-
-```bash
-docker run -d -p "3000:3000" --name link-manager \
--e "CONNECTION_STRING=mongodb://mongo:27017" \
--e "REDIRECT_URL=http://another-url.com" \
--e "REDIRECT_404_URL=http://another-url.com" \
--e "SHORTNER_URL=http://localhost:3000" \
--e "AUTH_TOKEN=1234567890" \
---net lm-network \
---restart unless-stopped \
-lpsouza/link-manager
+docker-compose up -d
 ```
 
 ## Usage
