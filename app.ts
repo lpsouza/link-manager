@@ -62,7 +62,7 @@ app.get('/:alias', async (req: express.Request, res: express.Response) => {
 
     if (aliasInfo) {
         aliasInfo.hits.push({
-            ip: req.ip,
+            ip: Array.isArray(req.headers['x-forwarded-for']) ? req.headers['x-forwarded-for'][0] : req.headers['x-forwarded-for'] || req.ip,
             userAgent: req.headers['user-agent']
         });
         aliasInfo.save();
