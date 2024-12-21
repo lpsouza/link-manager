@@ -9,7 +9,7 @@
         "dev": "npm run build && node -r dotenv/config ./dist/app.js"
     },
     "dependencies": {
-        "express": "^4.21.1",
+        "express": "^4.21.2",
         "morgan": "^1.10.0",
         "mongoose": "^8.8.3"
     },
